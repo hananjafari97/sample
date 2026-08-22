@@ -5,8 +5,10 @@ import io.github.hananjafari76.sample.user.io.UserResponse;
 import io.github.hananjafari76.sample.user.model.UserEntity;
 import io.github.hananjafari76.sample.user.repository.UserRepository;
 import io.github.hananjafari76.sample.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.UUID;

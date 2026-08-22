@@ -3,6 +3,7 @@ package io.github.hananjafari76.sample.user.controller;
 import io.github.hananjafari76.sample.user.io.UserRequest;
 import io.github.hananjafari76.sample.user.io.UserResponse;
 import io.github.hananjafari76.sample.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserResponse addUser(@RequestBody UserRequest request) {
+    public UserResponse addUser(@RequestBody @Valid UserRequest request) {
         return userService.add(request);
     }
 
@@ -37,6 +38,9 @@ public class UserController {
         }
     }
 
-
+    @PutMapping("/{userId}")
+    public UserResponse update(@PathVariable String userId, @RequestBody @Valid UserRequest request) {
+        return userService.update(userId, request);
+    }
 
 }
