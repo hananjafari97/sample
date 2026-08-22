@@ -41,6 +41,21 @@ public class UserServiceImp implements UserService {
         userRepository.delete(existingUser);
     }
 
+    @Override
+    public UserResponse update(String userId, UserRequest request) {
+        UserEntity existingUser = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found : " + userId));
+
+        existingUser.setUsername(request.getUsername());
+
+        if(request.getPassword() != null && !request.getPassword().isEmpty()) {
+            existingUser.setPassword(request.getPassword());
+        }
+        existingUser.setEmail(request.getEmail());
+
+        UserEntity updatedUser = userRepository.save(existingUser);
+        return convertToResponse(updatedUser);
+    }
+
     private UserEntity convertToEntity(UserRequest request) {
         return UserEntity.builder()
                 .userId(UUID.randomUUID().toString())
