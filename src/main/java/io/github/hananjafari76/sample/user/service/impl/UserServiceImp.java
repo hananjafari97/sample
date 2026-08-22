@@ -5,10 +5,10 @@ import io.github.hananjafari76.sample.user.io.UserResponse;
 import io.github.hananjafari76.sample.user.model.UserEntity;
 import io.github.hananjafari76.sample.user.repository.UserRepository;
 import io.github.hananjafari76.sample.user.service.UserService;
-import jakarta.validation.Valid;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +44,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public UserResponse update(String userId, UserRequest request) {
         UserEntity existingUser = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found : " + userId));
 
