@@ -1,12 +1,12 @@
-package io.github.hananjafari76.sample.user.model;
+package io.github.hananjafari76.sample.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -26,10 +26,11 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
     @Column(nullable = false)
-    @Size(min = 4, max = 20)
     private String password;
     @Email
     private String email;
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
 
 

@@ -9,9 +9,9 @@ import java.util.List;
 
 
 public interface UserService {
-    List<UserResponse> read();
-
     UserResponse add(@RequestBody UserRequest request);
+
+    List<UserResponse> read();
 
     void delete(String userId);
 

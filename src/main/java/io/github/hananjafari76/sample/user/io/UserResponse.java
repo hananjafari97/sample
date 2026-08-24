@@ -3,6 +3,7 @@ package io.github.hananjafari76.sample.user.io;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 public class UserResponse {
+
     private String userId;
     private String username;
     private String email;

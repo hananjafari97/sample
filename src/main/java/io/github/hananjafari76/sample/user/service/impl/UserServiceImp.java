@@ -2,12 +2,12 @@ package io.github.hananjafari76.sample.user.service.impl;
 
 import io.github.hananjafari76.sample.user.io.UserRequest;
 import io.github.hananjafari76.sample.user.io.UserResponse;
-import io.github.hananjafari76.sample.user.model.UserEntity;
+import io.github.hananjafari76.sample.model.UserEntity;
 import io.github.hananjafari76.sample.user.repository.UserRepository;
 import io.github.hananjafari76.sample.user.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.List;
@@ -20,6 +20,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserResponse add(UserRequest request) {
         UserEntity newUser = convertToEntity(request);
         newUser = userRepository.save(newUser);
@@ -27,9 +28,8 @@ public class UserServiceImp implements UserService {
         return convertToResponse(newUser);
     }
 
-
-
     @Override
+    @Transactional(readOnly = true)
     public List<UserResponse> read(){
         return userRepository.findAll()
                 .stream()
@@ -38,6 +38,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    @Transactional
     public void delete(String userId) {
         UserEntity existingUser = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found : " + userId));
         userRepository.delete(existingUser);
@@ -46,13 +47,15 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional
     public UserResponse update(String userId, UserRequest request) {
+
         UserEntity existingUser = userRepository.findByUserId(userId).orElseThrow(() -> new RuntimeException("User not found : " + userId));
 
         existingUser.setUsername(request.getUsername());
 
-        if(request.getPassword() != null && !request.getPassword().isEmpty()) {
+        if(request.getPassword() != null && !request.getPassword().isBlank()) {
             existingUser.setPassword(request.getPassword());
         }
+
         existingUser.setEmail(request.getEmail());
 
         UserEntity updatedUser = userRepository.save(existingUser);
