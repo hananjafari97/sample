@@ -29,7 +29,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remove(@PathVariable int id){
+    public void remove(@PathVariable Long id){
         try {
             categoryService.delete(id);
         } catch (RuntimeException e) {
@@ -38,7 +38,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public CategoryResponse update(@PathVariable int id, @RequestBody @Valid CategoryRequest request){
+    public CategoryResponse update(@PathVariable Long id, @RequestBody @Valid CategoryRequest request){
         return categoryService.update(id, request);
     }
 }

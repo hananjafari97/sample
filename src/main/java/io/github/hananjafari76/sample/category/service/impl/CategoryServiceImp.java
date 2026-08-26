@@ -38,14 +38,14 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     @Transactional
-    public void delete(int id) {
+    public void delete(Long id) {
         Category existingCategory = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("category not found : " + id));
         categoryRepository.delete(existingCategory);
     }
 
     @Override
     @Transactional
-    public CategoryResponse update(int id, CategoryRequest request) {
+    public CategoryResponse update(Long id, CategoryRequest request) {
         Category existingCategory = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("category not found : " + id));
         existingCategory.setName(request.getName());
         existingCategory.setDescription(request.getDescription());
@@ -60,10 +60,6 @@ public class CategoryServiceImp implements CategoryService {
                 .id(newCategory.getId())
                 .name(newCategory.getName())
                 .description(newCategory.getDescription())
-                .productName(newCategory.getProducts()
-                        .stream()
-                        .map(Product::getProductName)
-                        .collect(Collectors.toList()))
                 .build();
     }
 
